@@ -1,0 +1,48 @@
+sqlite> Create table Person (id integer, email text);
+insert into Person (id, email) values ('1', 'a@b.com');
+insert into Person (id, email) values ('2', 'c@d.com');
+insert into Person (id, email) values ('3', 'a@b.com');
+insert into Person (id, email) values ('4', 'a@bl.com');
+insert into Person (id, email) values ('5', 'c@d.com');
+insert into Person (id, email) values ('6', 'a@bl.com');
+insert into Person (id, email) values ('7', 'ac@b.com');
+insert into Person (id, email) values ('8', 'a@bl.com');
+insert into Person (id, email) values ('9', 'a@b.com');
+insert into Person (id, email) values ('10', 'a@b.com');
+insert into Person (id, email) values ('11', 'c@d.com');
+insert into Person (id, email) values ('12', 'cristina@saya.com');
+
+sqlite> select * from Person group by Email having count(Email) > 1;
++----+----------+
+| id |  email   |
++----+----------+
+| 1  | a@b.com  |
+| 4  | a@bl.com |
+| 2  | c@d.com  |
++----+----------+
+sqlite>     SELECT *, COUNT(*)    FROM Person GROUP BY email;
++----+-------------------+----------+
+| id |       email       | COUNT(*) |
++----+-------------------+----------+
+| 1  | a@b.com           | 4        |
+| 4  | a@bl.com          | 3        |
+| 7  | ac@b.com          | 1        |
+| 2  | c@d.com           | 3        |
+| 12 | cristina@saya.com | 1        |
++----+-------------------+----------+
+sqlite> SELECT * FROM Person Where email IN (select email from Person group by Email having count(Email) > 1);
++----+----------+
+| id |  email   |
++----+----------+
+| 1  | a@b.com  |
+| 2  | c@d.com  |
+| 3  | a@b.com  |
+| 4  | a@bl.com |
+| 5  | c@d.com  |
+| 6  | a@bl.com |
+| 8  | a@bl.com |
+| 9  | a@b.com  |
+| 10 | a@b.com  |
+| 11 | c@d.com  |
++----+----------+
+sqlite>
